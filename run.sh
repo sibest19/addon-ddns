@@ -4,7 +4,7 @@ set +u
 CONFIG_PATH=/data/options.json
 
 time=$(bashio::config 'update')
-ip1=$(https://api4.my-ip.io/ip.txt)
+ip1=$(curl -s -X GET "https://api4.my-ip.io/ip.txt")
 
 bashio::log.info "Your IP: $ip1"
 
