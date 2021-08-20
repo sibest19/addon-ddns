@@ -14,7 +14,7 @@ for i in $(bashio::config 'zones|keys'); do
         if answer=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/$(bashio::config "zones[$i].zone_id")/dns_records/$(bashio::config "zones[$i].dns_records[$j]")" \
             -H "Authorization: Bearer $api_key" \
             -H "Content-Type: application/json" \
-            -d '{"content": "'$ip1'"}') &&
+            -d '{"content": "'$ip1'", "type": "A"}') &&
             [ $(echo $answer | jq -r '.success') == 'true' ]; then
             bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\"."
         else
@@ -29,18 +29,21 @@ while true; do
     if ip2=$(curl -s -X GET "https://api4.my-ip.io/ip.txt") &&
         [ $ip1 != $ip2 ]; then
         bashio::log.info "New IP: $ip2"
-        api_key=$(bashio::config "zones[$i].api_key")
-        for j in $(bashio::config "zones[$i].dns_records|keys"); do
-            if answer=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/$(bashio::config "zones[$i].zone_id")/dns_records/$(bashio::config "zones[$i].dns_records[$j]")" \
-                -H "Authorization: Bearer $api_key" \
-                -H "Content-Type: application/json" \
-                -d '{"content": "'$ip1'"}') &&
-                [ $(echo $answer | jq -r '.success') == 'true' ]; then
-                bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\"."
-            else
-                bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\". $(echo $answer | jq -r '.errors | .[0]')"
-            fi
+        for i in $(bashio::config 'zones|keys'); do
+            api_key=$(bashio::config "zones[$i].api_key")
+            for j in $(bashio::config "zones[$i].dns_records|keys"); do
+                if answer=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/$(bashio::config "zones[$i].zone_id")/dns_records/$(bashio::config "zones[$i].dns_records[$j]")" \
+                    -H "Authorization: Bearer $api_key" \
+                    -H "Content-Type: application/json" \
+                    -d '{"content": "'$ip2'", "type": "A"}') &&
+                    [ $(echo $answer | jq -r '.success') == 'true' ]; then
+                    bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\"."
+                else
+                    bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\". $(echo $answer | jq -r '.errors | .[0]')"
+                fi
+            done
         done
+        ip1="$ip2"
     fi
     sleep "$time"
 done
