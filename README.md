@@ -13,4 +13,17 @@ Now you can install this add-on like any other home-assistant add-on.
 
 1. Create an API token at [Cloudflare](https://dash.cloudflare.com/profile/api-tokens) and give it Zone.DNS permissions.
 1. Copy your zone id from your dashboard.
-1. Enter these details in the configuration page of this add-on and start it. Watch the log for errors.
+2. To obtain your `dns_record_id` run this in your shell
+  ```sh
+  curl -X GET "https://api.cloudflare.com/client/v4/zones/YOUR_ZONE_ID/dns_records" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type:application/json"
+  ```
+4. Enter these details in the configuration page of this add-on and start it. Watch the log for errors.
+  ```yml
+  zones:
+    - api_key: xxxxxxxxxxxx
+      zone_id: 123abc
+      dns_record_id: 456def
+  update: 300
+  ```
