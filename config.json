@@ -12,7 +12,7 @@
       {
         "api_key": null,
         "zone_id": null,
-        "dns_record_id": null
+        "dns_records": []
       }
     ],
     "update": 300
@@ -22,7 +22,11 @@
       {
         "api_key": "str",
         "zone_id": "str",
-        "dns_record_id": "str"
+        "dns_records": [
+          {
+            "record_id": "str"
+          }
+        ]
       }
     ],
     "update": "int"
