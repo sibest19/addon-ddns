@@ -1,8 +1,8 @@
 {
   "name": "Cloudflare DDNS updater",
-  "version": "1.1.1.1",
+  "version": "1.1.1.2",
   "slug": "ddns",
-  "url": "https://github.com/kjell5317/addon-ddns",
+  "url": "https://github.com/sibest19/addon-ddns",
   "description": "Updates the public IP address to all A records on listed zones on Cloudflare",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "services",
@@ -11,7 +11,8 @@
     "zones": [
       {
         "api_key": null,
-        "zone_id": null
+        "zone_id": null,
+        "dns_record_id": null
       }
     ],
     "update": 300
@@ -20,7 +21,8 @@
     "zones": [
       {
         "api_key": "str",
-        "zone_id": "str"
+        "zone_id": "str",
+        "dns_record_id": "str"
       }
     ],
     "update": "int"
