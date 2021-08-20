@@ -13,7 +13,7 @@ Now you can install this add-on like any other home-assistant add-on.
 
 1. Create an API token at [Cloudflare](https://dash.cloudflare.com/profile/api-tokens) and give it Zone.DNS permissions.
 1. Copy your zone id from your dashboard.
-2. To obtain your `dns_record_id` run this in your shell
+2. To obtain your `dns_records` id run this in your shell and chose the ids of the records you want to update
   ```sh
   curl -X GET "https://api.cloudflare.com/client/v4/zones/YOUR_ZONE_ID/dns_records" \
      -H "Authorization: Bearer YOUR_TOKEN" \
@@ -24,7 +24,9 @@ Now you can install this add-on like any other home-assistant add-on.
   zones:
     - api_key: xxxxxxxxxxxx
       zone_id: 123abc
-      dns_record_id: 456def
+      dns_records:
+        - 456def
+        - 789ghi
   update: 300
   ```
 
