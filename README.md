@@ -27,3 +27,5 @@ Now you can install this add-on like any other home-assistant add-on.
       dns_record_id: 456def
   update: 300
   ```
+
+> Cloudflare, the Cloudflare logo, and Cloudflare Workers are trademarks and/or registered trademarks of Cloudflare, Inc. in the United States and other jurisdictions.
