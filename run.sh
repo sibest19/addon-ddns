@@ -16,12 +16,13 @@ for i in $(bashio::config 'zones|keys'); do
             -H "Content-Type: application/json" \
             -d '{"content": "'$ip1'"}') &&
             [ $(echo $answer | jq -r '.success') == 'true' ]; then
-            bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_record_id")\"."
+            bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\"."
         else
-            bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_record_id")\". $(echo $answer | jq -r '.errors | .[0]')"
+            bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\". $(echo $answer | jq -r '.errors | .[0]')"
         fi
     done
 done
+
 sleep "$time"
 
 while true; do
@@ -35,9 +36,9 @@ while true; do
                 -H "Content-Type: application/json" \
                 -d '{"content": "'$ip1'"}') &&
                 [ $(echo $answer | jq -r '.success') == 'true' ]; then
-                bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_record_id")\"."
+                bashio::log.info "Updated DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\"."
             else
-                bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_record_id")\". $(echo $answer | jq -r '.errors | .[0]')"
+                bashio::log.error "Failed updating DNS record id \"$(bashio::config "zones[$i].dns_records[$j]")\". $(echo $answer | jq -r '.errors | .[0]')"
             fi
         done
     fi
